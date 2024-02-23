@@ -1,1 +1,27 @@
-sub2aaaaaaaaa
+ function SelectOrderByidTaiKhoanFind($idTaiKhoan, $trangThaiThanhToan, $duyetDon)
+    {
+        $p = new clsketnoi();
+        $connect = $p->ketnoiDB();
+
+        $find = '';
+        if ($trangThaiThanhToan != '') {
+            $find = " AND dondatmon.trangThaiThanhToan = $trangThaiThanhToan";
+        }
+        if ($duyetDon != '') {
+            $find = "AND duyetDon= $duyetDon";
+        }
+        $tbl = "SELECT * FROM taikhoan 
+    JOIN  dondatmon ON taikhoan.idTaiKhoan =  dondatmon.idTaiKhoan        
+    JOIN chitietdon ON dondatmon.idDon = chitietdon.idDon 
+    JOIN monan ON chitietdon.idMonAn = monan.idMonAn WHERE taikhoan.idTaiKhoan = '$idTaiKhoan'
+    $find  ORDER BY dondatmon.ngayDat DESC";
+        $table = mysqli_query($connect, $tbl);
+        $list_users = array();
+        if (mysqli_num_rows($table) > 0) {
+            while ($row = mysqli_fetch_assoc($table)) {
+                $list_users[] = $row;
+            }
+            return $list_users;
+        }
+        $p->dongketnoi($connect);
+    }
