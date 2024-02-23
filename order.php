@@ -4,14 +4,13 @@ include_once("ketnoi.php");
 class modelOrder
 {
     
-    function SelectOrderByNgayLenMon($ngayLenMon)
+     function SelectThanhToanByIdTaiKhoanAndIdDonHang($idTaiKhoan, $idThanhToan)
     {
         $p = new clsketnoi();
         $connect = $p->ketnoiDB();
-        $tbl = "SELECT * FROM taikhoan 
-        JOIN  dondatmon ON taikhoan.idTaiKhoan =  dondatmon.idTaiKhoan        
-        JOIN chitietdon ON dondatmon.idDon = chitietdon.idDon 
-        JOIN monan ON chitietdon.idMonAn = monan.idMonAn WHERE chitietdon.ngayLenMon = '$ngayLenMon'";
+        $tbl = "SELECT * FROM `thanhtoan` INNER JOIN chitietthanhtoan ON thanhtoan.idThanhToan = chitietthanhtoan.idThanhToan
+         INNER JOIN taikhoan ON thanhtoan.idTaiKhoan = taikhoan.idTaiKhoan
+         WHERE thanhtoan.idTaiKhoan =$idTaiKhoan AND thanhtoan.idThanhToan = $idThanhToan";
         $table = mysqli_query($connect, $tbl);
         $list_users = array();
         if (mysqli_num_rows($table) > 0) {
