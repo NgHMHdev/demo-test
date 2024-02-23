@@ -1,1 +1,18 @@
 sub2aaaaaaaaa
+function DeleteDishNoMenu($resultArray)
+{
+    $p = new clsketnoi();
+    $connect = $p->ketnoiDB();
+
+    $Delete = '';
+    foreach ($resultArray as $item) {
+        $idMonAn = $item['idMonAn'];
+        $idDon = $item['idDon'];
+        $Delete .= "DELETE FROM chiTietDon WHERE idMonAn =$idMonAn AND idDon = $idDon; ";
+    }
+    
+
+    $kq = mysqli_multi_query($connect, $Delete);
+    $p->dongketnoi($connect);
+    return $kq;
+}
